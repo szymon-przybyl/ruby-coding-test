@@ -5,3 +5,9 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+#
+l = Leaderboard.create(name: 'My Leaderboard')
+l.entries.create(username: 'Jack', score: 10)
+l.entries.create(username: 'John', score: 9)
+l.entries.create(username: 'Jane', score: 3)
+l.entries.create(username: 'June')
