@@ -10,21 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180328212903) do
+ActiveRecord::Schema.define(version: 20210710143033) do
 
-  create_table "leaderboard_entries", force: :cascade do |t|
-    t.integer "leaderboard_id"
+  create_table "leaderboard_entries", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "leaderboard_id"
     t.string "username"
     t.integer "score"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["leaderboard_id", "score"], name: "index_leaderboard_entries_on_leaderboard_id_and_score"
     t.index ["leaderboard_id"], name: "index_leaderboard_entries_on_leaderboard_id"
   end
 
-  create_table "leaderboards", force: :cascade do |t|
+  create_table "leaderboards", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "leaderboard_entries", "leaderboards"
 end
