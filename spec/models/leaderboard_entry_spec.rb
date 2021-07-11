@@ -17,11 +17,11 @@ RSpec.describe LeaderboardEntry, type: :model do
       gilfoyle_entry.scores.create score: 99
       dinesh_entry.scores.create score: 77
 
-      expect(gilfoyle_entry.position).to eq(1)
-      expect(erlich_entry.position).to eq(2)
-      expect(richard_entry.position).to eq(3)
-      expect(dinesh_entry.position).to eq(4)
-      expect(jared_entry.position).to eq(5)
+      expect(gilfoyle_entry.position).to eq(0)
+      expect(erlich_entry.position).to eq(1)
+      expect(richard_entry.position).to eq(2)
+      expect(dinesh_entry.position).to eq(3)
+      expect(jared_entry.position).to eq(4)
     end
   end
 end

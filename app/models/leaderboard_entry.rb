@@ -5,6 +5,6 @@ class LeaderboardEntry < ApplicationRecord
   scope :by_score, -> { order(score: :desc) }
 
   def position
-    leaderboard.entries.by_score.pluck(:id).index(id) + 1
+    leaderboard.entries.by_score.pluck(:id).index(id)
   end
 end
