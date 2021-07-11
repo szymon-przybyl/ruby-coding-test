@@ -2,37 +2,24 @@ class LeaderboardEntryScoresController < ApplicationController
   # POST /leaderboard_entry_scores
   def create
     leaderboard = Leaderboard.find(params[:leaderboard_id])
-    username = params[:username]
-    score = params[:score].to_i
-
-    @entry = leaderboard.entries.find_or_initialize_by(username: username)
-    position_before = @entry.position
-    @entry.save if @entry.new_record?
-    @entry.scores.create(score: score)
-
-    position_change = position_before.nil? ? 0 : position_before - @entry.position
-    redirect_to leaderboard, notice: output_message(position_change)
+    add_score = AddScore.call(leaderboard: leaderboard, username: params[:username], score: params[:score].to_i)
+    redirect_to leaderboard, notice: output_message(add_score)
   end
 
   # DELETE /leaderboard_entry_scores/1
   def destroy
-    leaderboard_entry_score = LeaderboardEntryScore.find(params[:id])
-    @entry = leaderboard_entry_score.entry
-    position_before = @entry.position
-
-    leaderboard_entry_score.destroy
-
-    position_change = position_before - @entry.position
-    redirect_to leaderboard_url(@entry.leaderboard_id), notice: output_message(position_change)
+    score = LeaderboardEntryScore.find(params[:id])
+    remove_score = RemoveScore.call(score: score)
+    redirect_to leaderboard_url(remove_score[:entry].leaderboard_id), notice: output_message(remove_score)
   end
 
   private
 
-  def output_message(position_change)
+  def output_message(entry:, position_change:)
     changes = { create: 'added', destroy: 'deleted' }
     msg = "Score #{changes[action_name.to_sym]}"
     if position_change != 0
-      msg += ", position of #{@entry.username} #{position_change.positive? ? 'increased' : 'decreased'} by #{position_change.abs}"
+      msg += ", position of #{entry.username} #{position_change.positive? ? 'increased' : 'decreased'} by #{position_change.abs}"
     end
     msg
   end
