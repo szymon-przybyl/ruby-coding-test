@@ -7,7 +7,7 @@ class LeaderboardEntryScoresController < ApplicationController
 
     @entry = leaderboard.entries.find_or_initialize_by(username: username)
     position_before = @entry.position
-    @entry.save
+    @entry.save if @entry.new_record?
     @entry.scores.create(score: score)
 
     position_change = position_before.nil? ? 0 : position_before - @entry.position
