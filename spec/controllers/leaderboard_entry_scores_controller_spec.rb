@@ -25,7 +25,7 @@ RSpec.describe LeaderboardEntryScoresController, type: :controller do
   end
 
   describe "DELETE #destroy" do
-    let!(:leaderboard_entry) { create(:leaderboard_entry, leaderboard: leaderboard, score: 100) }
+    let!(:leaderboard_entry) { create(:leaderboard_entry, leaderboard: leaderboard, score: 0) }
     let!(:leaderboard_entry_score) { create(:leaderboard_entry_score, entry: leaderboard_entry, score: 10) }
 
     it "destroys the requested leaderboard_entry score" do
@@ -35,8 +35,9 @@ RSpec.describe LeaderboardEntryScoresController, type: :controller do
     end
 
     it "decreases score of entry" do
+      expect(leaderboard_entry.score).to eq(10)
       delete :destroy, params: { id: leaderboard_entry_score.to_param }
-      expect(leaderboard_entry.reload.score).to eq(90)
+      expect(leaderboard_entry.reload.score).to eq(0)
     end
 
     it "redirects to the leaderboard" do
