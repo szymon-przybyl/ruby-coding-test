@@ -4,6 +4,11 @@ RSpec.describe LeaderboardEntry, type: :model do
   describe '#position' do
     let!(:leaderboard) { create(:leaderboard) }
 
+    it 'returns nil for new record' do
+      entry = build(:leaderboard_entry, leaderboard: leaderboard, score: 10)
+      expect(entry.position).to be_nil
+    end
+
     it 'returns current position of entry in leaderboard' do
       richard_entry = create(:leaderboard_entry, leaderboard: leaderboard, username: 'Richard')
       erlich_entry = create(:leaderboard_entry, leaderboard: leaderboard, username: 'Erlich')
