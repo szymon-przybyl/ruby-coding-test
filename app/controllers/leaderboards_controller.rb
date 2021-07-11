@@ -1,5 +1,5 @@
 class LeaderboardsController < ApplicationController
-  before_action :set_leaderboard, only: [:show, :edit, :update, :destroy, :add_score]
+  before_action :set_leaderboard, only: [:show, :edit, :update, :destroy]
 
   # GET /leaderboards
   def index
@@ -43,19 +43,6 @@ class LeaderboardsController < ApplicationController
   def destroy
     @leaderboard.destroy
     redirect_to leaderboards_url, notice: 'Leaderboard was successfully destroyed.'
-  end
-
-  def add_score
-    username, score = params[:username]
-    score = params[:score].to_i
-    if @leaderboard.entries.where(username: username).exists?
-      entry = @leaderboard.entries.where(username: username).first
-      entry.increment!(:score, score)
-    else
-      entry = @leaderboard.entries.create!(username: username, score: score)
-    end
-    entry.scores.create!(score: score)
-    redirect_to @leaderboard, notice: 'Score added'
   end
 
   private
