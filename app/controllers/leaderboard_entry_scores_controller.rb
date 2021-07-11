@@ -5,11 +5,12 @@ class LeaderboardEntryScoresController < ApplicationController
     username = params[:username]
     score = params[:score].to_i
 
-    @entry = leaderboard.entries.find_or_create_by(username: username)
-    position_before = @entry.position
+    @entry = leaderboard.entries.find_or_initialize_by(username: username)
+    position_before = @entry.new_record? ? nil : @entry.position
+    @entry.save
     @entry.scores.create(score: score)
 
-    position_change = position_before - @entry.position
+    position_change = position_before.nil? ? 0 : position_before - @entry.position
     redirect_to leaderboard, notice: output_message(position_change)
   end
 

@@ -24,7 +24,8 @@ RSpec.describe LeaderboardEntryScoresController, type: :controller do
     end
 
     it 'sets flash message' do
-      post :create, params: { leaderboard_id: leaderboard.id, username: 'lala', score: 1 }
+      leaderboard.entries.create score: 1
+      post :create, params: { leaderboard_id: leaderboard.id, username: 'lala', score: 2 }
       expect(flash[:notice]).to eq "Score added"
     end
 
