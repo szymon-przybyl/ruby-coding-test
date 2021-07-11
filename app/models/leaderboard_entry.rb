@@ -1,4 +1,4 @@
 class LeaderboardEntry < ApplicationRecord
   belongs_to :leaderboard
-  has_many :scores, class_name: 'LeaderboardEntryScore'
+  has_many :scores, class_name: 'LeaderboardEntryScore', dependent: :destroy
 end
