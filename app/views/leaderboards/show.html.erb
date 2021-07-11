@@ -15,7 +15,7 @@
 </div>
 
 <div>
-  <%= form_tag add_score_leaderboard_path(@leaderboard), method: :post do %>
+  <%= form_tag leaderboard_entry_scores_path(leaderboard_id: @leaderboard), method: :post do %>
     <p>
       <%= label_tag "Username" %>
       <%= text_field_tag "username" %>

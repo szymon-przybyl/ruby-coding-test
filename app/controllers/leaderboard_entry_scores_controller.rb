@@ -1,6 +1,17 @@
 class LeaderboardEntryScoresController < ApplicationController
   # POST /leaderboard_entry_scores
   def create
+    @leaderboard = Leaderboard.find(params[:leaderboard_id])
+    username = params[:username]
+    score = params[:score].to_i
+    if @leaderboard.entries.where(username: username).exists?
+      entry = @leaderboard.entries.where(username: username).first
+      entry.increment!(:score, score)
+    else
+      entry = @leaderboard.entries.create!(username: username, score: score)
+    end
+    entry.scores.create!(score: score)
+    redirect_to @leaderboard, notice: 'Score added'
   end
 
   # DELETE /leaderboard_entries/1
