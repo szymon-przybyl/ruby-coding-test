@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :leaderboard_entry_scores, only: %i[create destroy]
   resources :leaderboard_entries
   resources :leaderboards do
     post :add_score, on: :member
