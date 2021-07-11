@@ -5,6 +5,7 @@ class LeaderboardEntry < ApplicationRecord
   scope :by_score, -> { order(score: :desc) }
 
   def position
+    return if new_record?
     leaderboard.entries.by_score.pluck(:id).index(id)
   end
 end
